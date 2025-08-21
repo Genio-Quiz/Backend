@@ -1,25 +1,25 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Usuario {
+export class User {
   @PrimaryGeneratedColumn()
-  idUsuario: number;
+  id: number;
 
   @Column({ type: 'varchar', length: 255 })
   email: string;
 
   @Column({ type: 'varchar', length: 100 })
-  apelido: string;
+  username: string;
 
   @Column({ type: 'varchar', length: 255 })
-  senha: string;
+  password: string;
 
   @Column({ type: 'boolean' })
-  administrador: boolean;
+  isAdmin: boolean;
 
   @Column({ type: 'int' })
-  pontuacao: number;
+  score: number;
 
   @Column({ type: 'date' })
-  criadoEm: string;
+  createdAt: string;
 }
