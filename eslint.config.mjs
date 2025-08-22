@@ -8,6 +8,7 @@ export default tseslint.config(
   {
     ignores: ['eslint.config.mjs'],
   },
+  eslintPluginPrettierRecommended,
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
@@ -17,18 +18,22 @@ export default tseslint.config(
         ...globals.node,
         ...globals.jest,
       },
+      ecmaVersion: 'latest',
       sourceType: 'commonjs',
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
+      parser: tseslint.parser,
     },
   },
   {
     rules: {
+      '@typescript-eslint/interface-name-prefix': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn'
+      '@typescript-eslint/require-await': 'off',
     },
   },
 );
