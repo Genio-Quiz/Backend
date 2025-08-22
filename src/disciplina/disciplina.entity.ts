@@ -14,7 +14,7 @@ export class Disciplina {
 
   @ManyToOne(() => Curso, (curso) => curso.disciplinas, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'idCurso' })
-    curso: Curso;
+  curso: Curso;
 
   @OneToMany(() => Questao, (questao) => questao.disciplina, { cascade: true })
   questoes: Questao[];
