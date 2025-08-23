@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: dockerfile
     ports:
-      - '33109:3000'
+      - '${APP_DOCKER_PORT}:3000'
     environment:
       - DB_HOST=mysql
       - DB_PORT=3306

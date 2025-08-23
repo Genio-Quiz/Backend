@@ -1,5 +1,11 @@
-  import { Column, Entity, PrimaryGeneratedColumn, OneToMany, Unique } from 'typeorm';
-  import { Resultado } from '../resultado/resultado.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  Unique,
+} from 'typeorm';
+import { Resultado } from '../resultado/resultado.entity';
 
 @Entity('usuarios')
 @Unique(['email', 'username'])
@@ -22,9 +28,15 @@ export class User {
   @Column({ type: 'int', default: 0, name: 'pontuacao' })
   score: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'criadoEm' })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'criadoEm',
+  })
   createdAt: Date;
 
-  @OneToMany(() => Resultado, (resultado) => resultado.usuario, { cascade: true })
+  @OneToMany(() => Resultado, (resultado) => resultado.usuario, {
+    cascade: true,
+  })
   resultados: Resultado[];
 }
