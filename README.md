@@ -6,7 +6,6 @@ A parte backend do projeto Sabichão.
   - [**Clone o repositório do github localmente**](#clone-o-repositório-do-github-localmente)
   - [**Baixe as dependências**](#baixe-as-dependências)
   - [**Compile e rode o código**](#compile-e-rode-o-código)
-- [**Como Realizar Testes**](#como-realizar-testes)
 - [**Como Commitar**](#como-commitar)
 
 ## Como Abrir o Projeto
@@ -31,19 +30,6 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
-```
-
-## Como Realizar Testes
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Como Commitar
