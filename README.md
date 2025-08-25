@@ -38,7 +38,7 @@ $ npm run start:prod
 
 ### Usando o Docker
 
-Para iniciar os contêineres, vá para a pasta raiz do projeto e verifique se voçê preencheu o seu arquivo .env, e use este comando:
+Para iniciar os contêineres, vá para a pasta raiz do projeto e verifique se você preencheu o seu arquivo .env, e use este comando:
 
 ```bash
 # Esse comando vai criar o container e mapeá-lo ao porte definido no arquivo .env
