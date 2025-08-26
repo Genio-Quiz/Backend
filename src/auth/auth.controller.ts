@@ -32,4 +32,3 @@ export class AuthController {
     return 'Hello from protection';
   }
 }
-

@@ -5,4 +5,3 @@ export class CreateUserDTO {
   readonly isAdmin: boolean;
   readonly score = 0;
 }
-

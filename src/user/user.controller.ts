@@ -22,4 +22,3 @@ export class UserController {
     return this.userService.findOnebyUsername(username);
   }
 }
-
