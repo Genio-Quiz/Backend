@@ -108,7 +108,7 @@ export class DisciplinaService {
     return result;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<{mensagem: string}> {
     const disciplinaExistente = await this.disciplinaRepository.findOneBy({
       id,
     });
@@ -120,5 +120,8 @@ export class DisciplinaService {
     }
 
     await this.disciplinaRepository.remove(disciplinaExistente);
+    return {
+      mensagem: "Disciplina deletada com sucesso"
+    }
   }
 }

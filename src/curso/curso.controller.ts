@@ -52,7 +52,7 @@ export class CursoController {
 
   @HttpCode(HttpStatus.OK)
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<void> {
+  async remove(@Param('id') id: number): Promise<{mensagem: string}> {
     return this.cursoService.remove(id);
   }
 }
