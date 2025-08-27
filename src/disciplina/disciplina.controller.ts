@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -47,5 +48,11 @@ export class DisciplinaController {
     @Body() disciplina: CreateDisciplinaDto,
   ): Promise<Disciplina> {
     return this.disciplinaService.update(id, disciplina);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Delete(':id')
+  async remove(@Param('id') id: number): Promise<void> {
+    return this.disciplinaService.remove(id);
   }
 }

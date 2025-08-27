@@ -107,4 +107,18 @@ export class DisciplinaService {
 
     return result;
   }
+
+  async remove(id: number): Promise<void> {
+    const disciplinaExistente = await this.disciplinaRepository.findOneBy({
+      id,
+    });
+    if (!disciplinaExistente) {
+      throw new HttpException(
+        'Disciplina não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    await this.disciplinaRepository.remove(disciplinaExistente);
+  }
 }

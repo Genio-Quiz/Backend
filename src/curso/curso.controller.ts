@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -47,5 +48,11 @@ export class CursoController {
     @Body() curso: CreateCursoDto,
   ): Promise<Curso> {
     return this.cursoService.update(id, curso);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Delete(':id')
+  async remove(@Param('id') id: number): Promise<void> {
+    return this.cursoService.remove(id);
   }
 }
