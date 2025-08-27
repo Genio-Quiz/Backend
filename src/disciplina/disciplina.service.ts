@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Disciplina } from './disciplina.entity';
 import { CreateDisciplinaDto } from './disciplina.dto';
-import { CursoService } from './../curso/curso.service';
+import { CursoService } from 'src/curso/curso.service';
 
 @Injectable()
 export class DisciplinaService {
@@ -54,6 +54,7 @@ export class DisciplinaService {
     }
 
     const newDisciplina = this.disciplinaRepository.create(disciplina);
+
     return this.disciplinaRepository.save(newDisciplina);
   }
 

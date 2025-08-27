@@ -9,11 +9,18 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     ports:
       - '${DB_PORT}:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   app:
     container_name: sabichao_backend
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - '${APP_DOCKER_PORT}:3000'
     environment:
@@ -22,5 +29,21 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
+      - NODE_ENV=development
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./node_modules:/usr/src/app/node_modules
+    command: >
+      sh -c "npm run start:dev"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    networks:
+      - app-network   
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    driver: bridge

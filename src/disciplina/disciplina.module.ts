@@ -3,11 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Disciplina } from './disciplina.entity';
 import { DisciplinaService } from './disciplina.service';
 import { DisciplinaController } from './disciplina.controller';
-import { CursoService } from 'src/curso/curso.service';
+import { CursoModule } from 'src/curso/curso.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Disciplina])],
-  providers: [DisciplinaService, CursoService],
+  imports: [TypeOrmModule.forFeature([Disciplina]), CursoModule],
+  providers: [DisciplinaService],
   controllers: [DisciplinaController],
 })
 export class DisciplinaModule {}
