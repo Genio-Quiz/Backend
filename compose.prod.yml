@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: "mysql:latest"
+    image: "mysql:8.0"
     container_name: sabichao_db
     environment:
       - MYSQL_DATABASE=${DB_NAME}
@@ -9,18 +9,34 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     ports:
       - '${DB_PORT}:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
   app:
     container_name: sabichao_backend
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile.prod
     ports:
       - '${APP_DOCKER_PORT}:3000'
     environment:
+      - SECRET=${SECRET}
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
+      - NODE_ENV=production
     depends_on:
       - mysql
+    networks:
+      - app-network   
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    driver: bridge

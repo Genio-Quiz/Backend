@@ -3,21 +3,24 @@ import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import registerAs from '../config/dbConfig';
-import { UserController } from 'src/user/user.controller';
-import { AuthController } from 'src/auth/auth.controller';
-import { UserService } from 'src/user/user.service';
-import { AuthService } from 'src/auth/auth.service';
 import { User } from 'src/user/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { AuthModule } from 'src/auth/auth.module';
+import { UserModule } from 'src/user/user.module';
+import { DisciplinaModule } from 'src/disciplina/disciplina.module';
+import { CursoModule } from 'src/curso/curso.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(registerAs()),
     TypeOrmModule.forFeature([User]),
+    AuthModule,
+    UserModule,
+    DisciplinaModule,
+    CursoModule,
   ],
-  controllers: [AppController, UserController, AuthController],
-  providers: [UserService, JwtService, AuthService],
+  controllers: [AppController],
+  providers: [JwtService],
 })
 export class AppModule {}
-

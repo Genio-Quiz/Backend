@@ -7,7 +7,7 @@ import { Questionario } from 'src/questionario/questionario.entity';
 import { Questao } from 'src/questao/questao.entity';
 import { Alternativa } from 'src/alternativa/alternativa.entity';
 import { Resultado } from 'src/resultado/resultado.entity';
-  
+
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -24,7 +24,15 @@ export default registerAs(
 
     synchronize: true,
     autoLoadEntities: true,
-  
-    entities: [User, Curso, Disciplina, Questionario, Questao, Alternativa, Resultado],
+
+    entities: [
+      User,
+      Curso,
+      Disciplina,
+      Questionario,
+      Questao,
+      Alternativa,
+      Resultado,
+    ],
   }),
 );

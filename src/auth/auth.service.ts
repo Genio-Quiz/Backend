@@ -22,7 +22,9 @@ export class AuthService {
   ) {}
 
   async signIn(signInDto: SignInDto): Promise<{ token: string }> {
-    const user = await this.usersService.findOnebyUsername(signInDto.username);
+    const user = await this.usersService.findUserWithPassword(
+      signInDto.username,
+    );
     if (!user) throw new HttpException('Usuário inexistente', 404);
     const match = await bcrypt.compare(signInDto.password, user?.password);
     if (!match) throw new UnauthorizedException();
@@ -52,4 +54,3 @@ export class AuthService {
     return saveUser;
   }
 }
-

@@ -1,6 +1,13 @@
-	import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-	import { Disciplina } from '../disciplina/disciplina.entity';
-	import { Alternativa } from '../alternativa/alternativa.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { Disciplina } from '../disciplina/disciplina.entity';
+import { Alternativa } from '../alternativa/alternativa.entity';
 
 export enum Dificuldade {
   FACIL = 'FACIL',
@@ -10,7 +17,6 @@ export enum Dificuldade {
 
 @Entity('questoes')
 export class Questao {
-
   @PrimaryGeneratedColumn({ name: 'idQuestao' })
   id: number;
 
@@ -20,11 +26,14 @@ export class Questao {
   @Column({ type: 'varchar', length: 255 })
   enunciado: string;
 
-  @ManyToOne(() => Disciplina, (disciplina) => disciplina.questoes, { onDelete: 'CASCADE'})
+  @ManyToOne(() => Disciplina, (disciplina) => disciplina.questoes, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'idDisciplina' })
   disciplina: Disciplina;
 
-  @OneToMany(() => Alternativa, (alternativa) => alternativa.questao, { cascade: true })
+  @OneToMany(() => Alternativa, (alternativa) => alternativa.questao, {
+    cascade: true,
+  })
   alternativas: Alternativa[];
-  
-} 
+}

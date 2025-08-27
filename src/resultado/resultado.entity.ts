@@ -1,18 +1,29 @@
-	import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-	import { User } from '../user/user.entity';
-	import { Questionario } from '../questionario/questionario.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { User } from '../user/user.entity';
+import { Questionario } from '../questionario/questionario.entity';
 
 @Entity('resultado')
 export class Resultado {
-
-  @PrimaryGeneratedColumn({ name: 'idResultado' }) 
+  @PrimaryGeneratedColumn({ name: 'idResultado' })
   id: number;
 
-  @ManyToOne(() => User, (user) => user.resultados, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.resultados, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'idUsuario' })
   usuario: User;
 
-  @ManyToOne(() => Questionario, (questionario) => questionario.resultados, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => Questionario, (questionario) => questionario.resultados, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'idQuestionario' })
   questionario: Questionario;
 
@@ -21,5 +32,4 @@ export class Resultado {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   dataExecucao: Date;
-
 }

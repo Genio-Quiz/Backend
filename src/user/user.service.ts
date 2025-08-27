@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { CreateUserDTO } from './user.dto';
+// import { CreateUserDTO } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -11,17 +11,93 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(): Promise<User[]> {
+    const users = await this.userRepository.find({
+      select: [
+        'id',
+        'username',
+        'email',
+        'score',
+        'isAdmin',
+        'resultados',
+        'createdAt',
+      ],
+    });
+    if (!users || users.length === 0) {
+      throw new HttpException(
+        'Nenhum usuário encontrado',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return users;
   }
-  findByOneId(id: number): Promise<User | null> {
-    return this.userRepository.findOneBy({ id });
+  async findByOneId(id: number): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      select: [
+        'id',
+        'username',
+        'email',
+        'score',
+        'isAdmin',
+        'resultados',
+        'createdAt',
+      ],
+    });
+    if (!user) {
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
-  findOnebyUsername(username: string): Promise<User | null> {
-    return this.userRepository.findOneBy({ username });
+  async findOnebyUsername(username: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: { username },
+      select: [
+        'id',
+        'username',
+        'email',
+        'score',
+        'isAdmin',
+        'resultados',
+        'createdAt',
+      ],
+    });
+    if (!user) {
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
+
+  async findUserWithPassword(username: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: { username },
+    });
+    if (!user) {
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
+
   async save(user: User): Promise<User> {
-    return this.userRepository.save(user);
+    const userExists = await this.userRepository.findOneBy({
+      username: user.username,
+    });
+    if (userExists) {
+      throw new HttpException('Usuário já existe', HttpStatus.CONFLICT);
+    }
+
+    const newUser = this.userRepository.create(user);
+    return this.userRepository.save(newUser);
+  }
+
+  async update(id: number, user: User): Promise<User> {
+    const userExistente = await this.userRepository.findOneBy({ id });
+    if (!userExistente) {
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    const updatedUser = Object.assign(userExistente, user);
+    const result = await this.userRepository.save(updatedUser);
+    return result;
   }
 }
-

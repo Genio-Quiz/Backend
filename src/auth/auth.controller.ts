@@ -28,8 +28,8 @@ export class AuthController {
   }
   @UseGuards(AuthGuard)
   @Get('protected')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getProtected(@Request() req) {
     return 'Hello from protection';
   }
 }
-
