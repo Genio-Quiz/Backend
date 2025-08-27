@@ -1,7 +1,6 @@
-import { CreateDisciplinaDto } from 'src/disciplina/disciplina.dto';
+import { IsString } from 'class-validator';
 
 export class CreateCursoDto {
-  id: number;
+  @IsString()
   nome: string;
-  disciplinas: CreateDisciplinaDto[];
 }

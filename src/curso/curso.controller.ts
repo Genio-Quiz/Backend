@@ -29,7 +29,7 @@ export class CursoController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Get('name/:name')
+  @Get('search/:name')
   async findByName(@Param('name') name: string): Promise<Curso | null> {
     return this.cursoService.findOnebyName(name);
   }

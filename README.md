@@ -42,7 +42,7 @@ Para iniciar os contêineres, vá para a pasta raiz do projeto e verifique se vo
 
 ```bash
 # Esse comando vai criar o container e mapeá-lo ao porte definido no arquivo .env
-$ docker compose up -d
+$ docker compose up -d --build
 ```
 
 ## Como Commitar

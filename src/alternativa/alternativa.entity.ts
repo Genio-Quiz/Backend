@@ -1,9 +1,14 @@
-  import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-  import { Questao } from '../questao/questao.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Questao } from '../questao/questao.entity';
 
 @Entity('alternativas')
 export class Alternativa {
-
   @PrimaryGeneratedColumn({ name: 'idAlternativa' })
   id: number;
 
@@ -13,8 +18,10 @@ export class Alternativa {
   @Column({ type: 'boolean', default: false })
   estaCorreta: boolean;
 
-  @ManyToOne(() => Questao, (questao) => questao.alternativas, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => Questao, (questao) => questao.alternativas, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'idQuestao' })
   questao: Questao;
-  
 }

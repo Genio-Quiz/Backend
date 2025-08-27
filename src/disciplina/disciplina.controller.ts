@@ -29,7 +29,7 @@ export class DisciplinaController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Get('name/:name')
+  @Get('search/:name')
   async findByName(@Param('name') name: string): Promise<Disciplina | null> {
     return this.disciplinaService.findOnebyName(name);
   }

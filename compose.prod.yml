@@ -11,11 +11,6 @@ services:
       - '${DB_PORT}:3306'
     volumes:
       - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - app-network
 
@@ -23,7 +18,7 @@ services:
     container_name: sabichao_backend
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
       - '${APP_DOCKER_PORT}:3000'
     environment:
@@ -33,15 +28,9 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
-      - NODE_ENV=development
-    volumes:
-      - ./src:/usr/src/app/src
-      - ./tsconfig.json:/usr/src/app/tsconfig.json
-      - ./nest-cli.json:/usr/src/app/nest-cli.json
-    command: npm run start:dev
+      - NODE_ENV=production
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
     networks:
       - app-network   
 

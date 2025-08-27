@@ -1,6 +1,11 @@
 node_modules
 dist
+coverage
 *.log
 *.md
 .git
+.vscode
+.idea
 .env
+npm-debug.log
+yarn-error.log

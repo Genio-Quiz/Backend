@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Disciplina } from './disciplina.entity';
@@ -14,48 +14,72 @@ export class DisciplinaService {
   ) {}
 
   async findAll(): Promise<Disciplina[]> {
-    const disciplinas = await this.disciplinaRepository.find();
+    const disciplinas = await this.disciplinaRepository.find({
+      relations: ['curso', 'questoes', 'questionarios'],
+    });
     if (!disciplinas || disciplinas.length === 0) {
-      throw new Error('Nenhum disciplina encontrado');
+      throw new HttpException(
+        'Nenhum disciplina encontrado',
+        HttpStatus.NOT_FOUND,
+      );
     }
 
+    console.log(disciplinas);
     return disciplinas;
   }
 
   async findByOneId(id: number): Promise<Disciplina | null> {
-    const disciplina = await this.disciplinaRepository.findOneBy({ id });
+    const disciplina = await this.disciplinaRepository.findOne({
+      where: { id },
+      relations: ['curso', 'questoes', 'questionarios'],
+    });
     if (!disciplina) {
-      throw new Error('Disciplina não encontrado');
+      throw new HttpException(
+        'Disciplina não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
     }
 
+    console.log(disciplina);
     return disciplina;
   }
 
   async findOnebyName(nome: string): Promise<Disciplina | null> {
-    const disciplina = await this.disciplinaRepository.findOneBy({ nome });
+    const disciplina = await this.disciplinaRepository.findOne({
+      where: { nome },
+      relations: ['curso', 'questoes', 'questionarios'],
+    });
     if (!disciplina) {
-      throw new Error('Disciplina não encontrado');
+      throw new HttpException(
+        'Disciplina não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     return disciplina;
   }
 
-  async save(disciplina: CreateDisciplinaDto): Promise<Disciplina> {
-    const disciplinaExiste = await this.disciplinaRepository.findOneBy({
-      nome: disciplina.nome,
+  async save(disciplinaDto: CreateDisciplinaDto): Promise<Disciplina> {
+    const disciplinaExiste = await this.disciplinaRepository.findOne({
+      where: { nome: disciplinaDto.nome },
     });
     if (disciplinaExiste) {
-      throw new Error('Disciplina já existe');
+      throw new HttpException('Disciplina já existe', HttpStatus.CONFLICT);
     }
 
-    const curso = await this.cursoService.findByOneId(disciplina.cursoId);
+    const curso = await this.cursoService.findByOneId(disciplinaDto.cursoId);
     if (!curso) {
-      throw new Error('Curso não encontrado');
+      throw new HttpException('Curso não encontrado', HttpStatus.NOT_FOUND);
     }
 
-    const newDisciplina = this.disciplinaRepository.create(disciplina);
+    const newDisciplina = this.disciplinaRepository.create({
+      nome: disciplinaDto.nome,
+      curso: curso,
+    });
 
-    return this.disciplinaRepository.save(newDisciplina);
+    const savedDisciplina = await this.disciplinaRepository.save(newDisciplina);
+
+    return savedDisciplina;
   }
 
   async update(
@@ -66,13 +90,19 @@ export class DisciplinaService {
       id,
     });
     if (!disciplinaExistente) {
-      throw new Error('Disciplina não encontrado');
+      throw new HttpException(
+        'Disciplina não encontrado',
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     const updatedDisciplina = Object.assign(disciplinaExistente, disciplina);
     const result = await this.disciplinaRepository.save(updatedDisciplina);
     if (!result) {
-      throw new Error('Erro ao atualizar disciplina');
+      throw new HttpException(
+        'Erro ao atualizar disciplina',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
 
     return result;

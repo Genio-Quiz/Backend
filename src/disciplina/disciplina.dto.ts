@@ -1,5 +1,9 @@
+import { IsNumber, IsString } from 'class-validator';
+
 export class CreateDisciplinaDto {
-  id: number;
+  @IsString()
   nome: string;
+
+  @IsNumber()
   cursoId: number;
 }
