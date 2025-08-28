@@ -110,6 +110,7 @@ $ git push origin dev
 - `docs`: Onde serão feitas alterações relacionadas a documentação (como o README.md ou outros tipos de instrução)
 
 ## Requests
+Use essas requests para manipular as tabelas do projeto
 
 ### Manipulação dos Usuários
 - **`GET /users`**: Lista os usuários cadastrados
