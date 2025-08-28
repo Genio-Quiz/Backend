@@ -92,10 +92,10 @@ $ git push origin dev
 ## Requests
 
 ### Manipulação dos Usuários
-- `GET /users`: Lista os usuários cadastrados
-- `GET /users/:id`: Retorna o usuário com a id especificada
-- `GET /users/search/:username`: Retorna o usuário com o nome especificado
-- `POST /auth/signUp`: Cadastra um usuário no banco de dados
+- **`GET /users`**: Lista os usuários cadastrados
+- **`GET /users/:id`**: Retorna o usuário com a id especificada
+- **`GET /users/search/:username`**: Retorna o usuário com o nome especificado
+- **`POST /auth/signUp`**: Cadastra um usuário no banco de dados
   ```
   {
     "username": "nome do usuário",
@@ -104,7 +104,7 @@ $ git push origin dev
     "isAdmin": true/false se for adiministrador
   }
   ```
-- `POST /auth/login`: Entra em uma conta existente
+- **`POST /auth/login`**: Entra em uma conta existente
   ```
   {
     "username": "nome do usuário",
