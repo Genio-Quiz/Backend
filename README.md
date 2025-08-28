@@ -12,6 +12,7 @@ A parte backend do projeto Sabichão.
 - [**Requests**](#requests)
   - [**Manipulação dos Usuários**](#manipulação-dos-usuários)
   - [**Cursos**](#cursos)
+  - [**Disciplinas**](#disciplinas)
 
 ## Como Abrir o Projeto
 
@@ -146,3 +147,22 @@ $ git push origin dev
   }
   ```
 - **`DELETE /cursos/:id`**: Deleta um curso com a id especificada
+### Disciplinas
+- **`GET /disciplinas`**: Lista as disciplinas cadastradas
+- **`GET /disciplinas/:id`**: Retorna a disciplina com a id especificada
+- **`GET /disciplinas/search/:name`**: Retorna a disciplina com o nome especificado
+- **`POST /disciplinas`**: Cadastra uma disciplina no banco de dados
+  ```
+  {
+    "nome": "nome da disciplina",
+    "cursoId": "id do curso relacionado"
+  }
+  ```
+- **`PATCH /disciplinas/:id`**: Atualiza uma disciplina com a id especificada
+  ```
+  {
+    "nome": "nome da disciplina",
+    "cursoId": "id do curso relacionado"
+  }
+  ```
+- **`DELETE /disciplinas/:id`**: Deleta uma disciplina com a id especificada
