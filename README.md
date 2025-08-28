@@ -29,7 +29,7 @@ $ npm install # também pode ser usado "npm i"
 ```
 
 ### Compile e rode o código
-Você pode compilar o código e conectá-lo manualmente ao banco dados, mas é recomendado que você use o docker para fazer isso já que é tudo feito automáticamente para você. Tudo isso é detalhado na [próxima seção](#usando-o-docker).
+Você pode compilar o código e conectá-lo manualmente ao banco dados, mas é recomendado que você use o docker para fazer isso já que tudo é feito automáticamente para você. Isso é detalhado na [próxima seção](#usando-o-docker).
 ```bash
 # development
 $ npm run start
