@@ -11,6 +11,7 @@ A parte backend do projeto Sabichão.
 - [**Branches**](#branches)
 - [**Requests**](#requests)
   - [**Manipulação dos Usuários**](#manipulação-dos-usuários)
+  - [**Cursos**](#cursos)
 
 ## Como Abrir o Projeto
 
@@ -111,3 +112,19 @@ $ git push origin dev
     "password": "senha"
   }
   ```
+### Cursos
+- **`GET /cursos`**: Lista os cursos cadastrados
+- **`GET /cursos/:id`**: Retorna o curso com a id especificada
+- **`POST /cursos`**: Cadastra um curso no banco de dados
+  ```
+  {
+    "nome": "nome do curso"
+  }
+  ```
+- **`PATCH /cursos/:id`**: Atualiza um curso com a id especificada
+  ```
+  {
+    "nome": "nome do curso"
+  }
+  ```
+- **`DELETE /cursos/:id`**: Deleta um curso com a id especificada
