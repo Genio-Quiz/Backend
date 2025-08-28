@@ -24,7 +24,7 @@ $ npm install # também pode ser usado "npm i"
 ```
 
 ### Compile e rode o código
-
+Você pode compilar o código e conectá-lo manualmente, mas é recomendado que você use o docker para fazer isso, como as instruções na [próxima seção descrevem](#usando-o-docker).
 ```bash
 # development
 $ npm run start
