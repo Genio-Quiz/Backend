@@ -8,7 +8,7 @@ A parte backend do projeto Sabichão.
   - [**Compile e rode o código**](#compile-e-rode-o-código)
   - [**Usando o docker**](#usando-o-docker)
 - [**Como Commitar**](#como-commitar)
-- [**Descrição dos Branches**](#descrição-dos-branches)
+- [**Branches**](#branches)
 
 ## Como Abrir o Projeto
 
@@ -82,7 +82,7 @@ $ git push origin dev
 
 > Para mais informações sobre os comandos, acesse a [Documentação Oficial do Git](https://git-scm.com/docs) ou leia o livro online, [Pro Git](https://git-scm.com/book/en/v2).
 
-## Descrição dos Branches
+## Branches
 - `main`: Branch principal do projeto
 - `dev`: Onde as features e alterações do código serão feitas
 - `docs`: Onde serão feitas alterações relacionadas a documentação (como o README.md ou outros tipos de instrução)
