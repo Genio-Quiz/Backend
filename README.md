@@ -9,6 +9,8 @@ A parte backend do projeto Sabichão.
   - [**Usando o docker**](#usando-o-docker)
 - [**Como Commitar**](#como-commitar)
 - [**Branches**](#branches)
+- [**Requests**](#requests)
+  - [**Manipulação dos Usuários**](#manipulação-dos-usuários)
 
 ## Como Abrir o Projeto
 
@@ -86,3 +88,26 @@ $ git push origin dev
 - `main`: Branch principal do projeto
 - `dev`: Onde as features e alterações do código serão feitas
 - `docs`: Onde serão feitas alterações relacionadas a documentação (como o README.md ou outros tipos de instrução)
+
+## Requests
+
+### Manipulação dos Usuários
+- `GET /users`: Lista os usuários cadastrados
+- `GET /users/:id`: Retorna o usuário com a id especificada
+- `GET /users/search/:username`: Retorna o usuário com o nome especificado
+- `POST /auth/signUp`: Cadastra um usuário no banco de dados
+  ```
+  {
+    "username": "nome do usuário",
+    "email": "email",
+    "password": "senha",
+    "isAdmin": true/false se for adiministrador
+  }
+  ```
+- `POST /auth/login`: Entra em uma conta existente
+  ```
+  {
+    "username": "nome do usuário",
+    "password": "senha"
+  }
+  ```
