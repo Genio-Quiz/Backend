@@ -42,7 +42,25 @@ $ npm run start:prod
 
 ### Usando o Docker
 
-Para iniciar os contêineres, vá para a pasta raiz do projeto e verifique se você preencheu o seu arquivo .env, e use este comando:
+Para iniciar os contêineres, vá para a pasta raiz do projeto e verifique se você preencheu o seu arquivo .env. em seguida, utilize o comando abaixo para iniciar o docker.
+
+Exemplo de um arquivo `.env`:
+```
+# DATABASE
+DB_HOST=mysql
+DB_PORT=3306
+DB_USER=app_user
+DB_PASSWORD=app_password
+DB_ROOT_PASSWORD=rootpassword
+DB_NAME=app_db
+
+# APP
+APP_PORT=3000
+APP_DOCKER_PORT=3000
+
+# JWT
+SECRET="3IVJqcSZTLx19UNbzyq9wiDqK/1SPvBw4xzfUNgUCdtmj88TxOuI6k+SqLFk3v4OYM+RlQKyEuf9sGb68JrTNA"
+```
 
 ```bash
 # Esse comando vai criar o container e mapeá-lo ao porte definido no arquivo .env
