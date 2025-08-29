@@ -8,6 +8,11 @@ A parte backend do projeto Sabichão.
   - [**Compile e rode o código**](#compile-e-rode-o-código)
   - [**Usando o docker**](#usando-o-docker)
 - [**Como Commitar**](#como-commitar)
+- [**Branches**](#branches)
+- [**Requests**](#requests)
+  - [**Manipulação dos Usuários**](#manipulação-dos-usuários)
+  - [**Cursos**](#cursos)
+  - [**Disciplinas**](#disciplinas)
 
 ## Como Abrir o Projeto
 
@@ -24,7 +29,7 @@ $ npm install # também pode ser usado "npm i"
 ```
 
 ### Compile e rode o código
-
+Você pode compilar o código e conectá-lo manualmente ao banco dados, mas é recomendado que você use o docker para fazer isso já que tudo é feito automáticamente para você. Isso é detalhado na [próxima seção](#usando-o-docker).
 ```bash
 # development
 $ npm run start
@@ -38,7 +43,25 @@ $ npm run start:prod
 
 ### Usando o Docker
 
-Para iniciar os contêineres, vá para a pasta raiz do projeto e verifique se você preencheu o seu arquivo .env, e use este comando:
+Para iniciar os contêineres, vá para a pasta raiz do projeto e verifique se você preencheu o seu arquivo .env. em seguida, utilize o comando abaixo para iniciar o docker.
+
+Exemplo de um arquivo `.env`:
+```
+# DATABASE
+DB_HOST=mysql
+DB_PORT=3306
+DB_USER=app_user
+DB_PASSWORD=app_password
+DB_ROOT_PASSWORD=rootpassword
+DB_NAME=app_db
+
+# APP
+APP_PORT=3000
+APP_DOCKER_PORT=3000
+
+# JWT
+SECRET="3IVJqcSZTLx19UNbzyq9wiDqK/1SPvBw4xzfUNgUCdtmj88TxOuI6k+SqLFk3v4OYM+RlQKyEuf9sGb68JrTNA"
+```
 
 ```bash
 # Esse comando vai criar o container e mapeá-lo ao porte definido no arquivo .env
@@ -81,3 +104,66 @@ $ git push origin dev
 
 > Para mais informações sobre os comandos, acesse a [Documentação Oficial do Git](https://git-scm.com/docs) ou leia o livro online, [Pro Git](https://git-scm.com/book/en/v2).
 
+## Branches
+- `main`: Branch principal do projeto
+- `dev`: Onde as features e alterações do código serão feitas
+- `docs`: Onde serão feitas alterações relacionadas a documentação (como o README.md ou outros tipos de instrução)
+
+## Requests
+Use essas requests para manipular as tabelas do projeto
+
+### Manipulação dos Usuários
+- **`GET /users`**: Lista os usuários cadastrados
+- **`GET /users/:id`**: Retorna o usuário com a id especificada
+- **`GET /users/search/:username`**: Retorna o usuário com o nome especificado
+- **`POST /auth/signUp`**: Cadastra um usuário no banco de dados
+  ```
+  {
+    "username": "nome do usuário",
+    "email": "email",
+    "password": "senha",
+    "isAdmin": true/false se for adiministrador
+  }
+  ```
+- **`POST /auth/login`**: Entra em uma conta existente
+  ```
+  {
+    "username": "nome do usuário",
+    "password": "senha"
+  }
+  ```
+### Cursos
+- **`GET /cursos`**: Lista os cursos cadastrados
+- **`GET /cursos/:id`**: Retorna o curso com a id especificada
+- **`POST /cursos`**: Cadastra um curso no banco de dados
+  ```
+  {
+    "nome": "nome do curso"
+  }
+  ```
+- **`PATCH /cursos/:id`**: Atualiza um curso com a id especificada
+  ```
+  {
+    "nome": "nome do curso"
+  }
+  ```
+- **`DELETE /cursos/:id`**: Deleta um curso com a id especificada
+### Disciplinas
+- **`GET /disciplinas`**: Lista as disciplinas cadastradas
+- **`GET /disciplinas/:id`**: Retorna a disciplina com a id especificada
+- **`GET /disciplinas/search/:name`**: Retorna a disciplina com o nome especificado
+- **`POST /disciplinas`**: Cadastra uma disciplina no banco de dados
+  ```
+  {
+    "nome": "nome da disciplina",
+    "cursoId": "id do curso relacionado"
+  }
+  ```
+- **`PATCH /disciplinas/:id`**: Atualiza uma disciplina com a id especificada
+  ```
+  {
+    "nome": "nome da disciplina",
+    "cursoId": "id do curso relacionado"
+  }
+  ```
+- **`DELETE /disciplinas/:id`**: Deleta uma disciplina com a id especificada
