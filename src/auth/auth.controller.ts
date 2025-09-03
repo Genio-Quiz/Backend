@@ -5,13 +5,15 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './signIn.dto';
 import { AuthGuard } from './auth.guard';
 import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
+import type { Response, Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -19,8 +21,11 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() SignInDto: SignInDto) {
-    return this.authService.signIn(SignInDto);
+  async signIn(@Body() SignInDto: SignInDto, @Res() response: Response) {
+    const token = await this.authService.signIn(SignInDto);
+    response.cookie('token', token.token);
+
+    response.send(token);
   }
 
   @Post('signUp')
@@ -30,8 +35,10 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('protected')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getProtected(@Request() req) {
-    return 'Hello from protection';
+  getProtected(@Req() req: Request) {
+    if (!req.cookies || Object.keys(req.cookies).length === 0) {
+      return { error: 'sem cookie, q fome' };
+    }
+    return req.cookies;
   }
 }
