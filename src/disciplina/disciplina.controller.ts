@@ -52,7 +52,7 @@ export class DisciplinaController {
 
   @HttpCode(HttpStatus.OK)
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<{mensagem: string}> {
+  async remove(@Param('id') id: number): Promise<{ mensagem: string }> {
     return this.disciplinaService.remove(id);
   }
 }

@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './signIn.dto';
-import { CreateUserDTO } from 'src/user/user.dto';
 import { AuthGuard } from './auth.guard';
+import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -22,10 +22,12 @@ export class AuthController {
   signIn(@Body() SignInDto: SignInDto) {
     return this.authService.signIn(SignInDto);
   }
+
   @Post('signUp')
   signUp(@Body() createUserDto: CreateUserDTO) {
     return this.authService.signUp(createUserDto);
   }
+
   @UseGuards(AuthGuard)
   @Get('protected')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
