@@ -23,7 +23,11 @@ export class AuthController {
   @Post('login')
   async signIn(@Body() SignInDto: SignInDto, @Res() response: Response) {
     const token = await this.authService.signIn(SignInDto);
-    response.cookie('token', token.token);
+    response.cookie('token', token.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'production',
+      sameSite: 'strict',
+    });
 
     response.send(token);
   }
