@@ -9,6 +9,10 @@ import { AuthModule } from 'src/auth/auth.module';
 import { UserModule } from 'src/user/user.module';
 import { DisciplinaModule } from 'src/disciplina/disciplina.module';
 import { CursoModule } from 'src/curso/curso.module';
+import { AuthController } from 'src/auth/auth.controller';
+import { UserController } from 'src/user/user.controller';
+import { DisciplinaController } from 'src/disciplina/disciplina.controller';
+import { CursoController } from 'src/curso/curso.controller';
 
 @Module({
   imports: [
@@ -20,7 +24,13 @@ import { CursoModule } from 'src/curso/curso.module';
     DisciplinaModule,
     CursoModule,
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController,
+    AuthController,
+    UserController,
+    DisciplinaController,
+    CursoController,
+  ],
   providers: [JwtService],
 })
 export class AppModule {}
