@@ -2,7 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-// import { CreateUserDTO } from './user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
+import { CreateUserDTO } from './dtos/create-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -31,6 +33,7 @@ export class UserService {
     }
     return users;
   }
+
   async findByOneId(id: number): Promise<User | null> {
     const user = await this.userRepository.findOne({
       where: { id },
@@ -49,6 +52,7 @@ export class UserService {
     }
     return user;
   }
+
   async findOnebyUsername(username: string): Promise<User | null> {
     const user = await this.userRepository.findOne({
       where: { username },
@@ -78,26 +82,55 @@ export class UserService {
     return user;
   }
 
-  async save(user: User): Promise<User> {
-    const userExists = await this.userRepository.findOneBy({
-      username: user.username,
+  async save(user: CreateUserDTO): Promise<User> {
+    const userExists = await this.userRepository.findOne({
+      where: [{ username: user.username }, { email: user.email.toLowerCase() }],
     });
     if (userExists) {
       throw new HttpException('Usuário já existe', HttpStatus.CONFLICT);
     }
 
-    const newUser = this.userRepository.create(user);
+    const data = {
+      ...user,
+      email: user.email.toLowerCase(),
+    };
+
+    const newUser = this.userRepository.create(data);
     return this.userRepository.save(newUser);
   }
 
-  async update(id: number, user: User): Promise<User> {
+  async update(id: number, user: UpdateUserDto): Promise<User> {
     const userExistente = await this.userRepository.findOneBy({ id });
     if (!userExistente) {
       throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
     }
 
-    const updatedUser = Object.assign(userExistente, user);
+    const updatedUser = { ...userExistente, ...user };
+    if (user.email) {
+      updatedUser.email = user.email.toLowerCase();
+    }
+    if (user.password) {
+      updatedUser.password = await bcrypt.hash(user.password, 10);
+    }
+
     const result = await this.userRepository.save(updatedUser);
     return result;
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const userExistente = await this.userRepository.findOneBy({ id });
+    if (!userExistente) {
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    const userDeleted = await this.userRepository.delete(id);
+    if (userDeleted.affected === 0) {
+      throw new HttpException(
+        'Erro ao deletar o usuário',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    return true;
   }
 }

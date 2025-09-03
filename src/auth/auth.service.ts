@@ -3,16 +3,11 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-
 import { JwtService } from '@nestjs/jwt';
-
 import { UserService } from 'src/user/user.service';
-
 import * as bcrypt from 'bcrypt';
-
-import { CreateUserDTO } from 'src/user/user.dto';
-import { User } from 'src/user/user.entity';
 import { SignInDto } from './signIn.dto';
+import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -43,14 +38,14 @@ export class AuthService {
   }
 
   async signUp(userDTO: CreateUserDTO) {
-    const user = new User();
-    user.username = userDTO.username;
-    user.email = userDTO.email;
-    user.password = await bcrypt.hash(userDTO.password, 10);
-    user.score = userDTO.score;
-    user.isAdmin = userDTO.isAdmin;
+    const createUserDTO = new CreateUserDTO();
+    createUserDTO.username = userDTO.username;
+    createUserDTO.email = userDTO.email;
+    createUserDTO.password = await bcrypt.hash(userDTO.password, 10);
+    createUserDTO.score = userDTO.score;
+    createUserDTO.isAdmin = userDTO.isAdmin;
 
-    const saveUser = await this.usersService.save(user);
+    const saveUser = await this.usersService.save(createUserDTO);
     return saveUser;
   }
 }

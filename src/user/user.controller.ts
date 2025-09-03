@@ -1,6 +1,20 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  Patch,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -24,5 +38,33 @@ export class UserController {
     @Param('username') username: string,
   ): Promise<User | null> {
     return this.userService.findOnebyUsername(username);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @Patch()
+  async updateUser(
+    @Request() req,
+    @Body() updateUserDTO: UpdateUserDto,
+  ): Promise<User | null> {
+    if (req.user) {
+      if (updateUserDTO) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        return this.userService.update(req.user.id, updateUserDTO);
+      } else {
+        throw new HttpException('Dados inválidos', HttpStatus.BAD_REQUEST);
+      }
+    }
+    return null;
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @Delete()
+  async deleteUser(@Request() req) {
+    if (!req.user.id)
+      return new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return this.userService.delete(req.user.id);
   }
 }

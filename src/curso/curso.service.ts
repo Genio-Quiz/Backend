@@ -79,7 +79,7 @@ export class CursoService {
     return result;
   }
 
-  async remove(id: number): Promise<{mensagem: string}> {
+  async remove(id: number): Promise<{ mensagem: string }> {
     const cursoExistente = await this.cursoRepository.findOneBy({ id });
     if (!cursoExistente) {
       throw new HttpException('Curso não encontrado', HttpStatus.NOT_FOUND);
@@ -87,7 +87,7 @@ export class CursoService {
 
     await this.cursoRepository.delete(id);
     return {
-      mensagem: "Curso deletado com sucesso"
-    }
+      mensagem: 'Curso deletado com sucesso',
+    };
   }
 }
