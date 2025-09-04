@@ -132,6 +132,17 @@ Use essas requests para manipular as tabelas do projeto
     "password": "senha"
   }
   ```
+- **`PATCH /users`**: Atualiza o usuário logado
+  ```
+  {
+    "username?": "nome do usuário",
+    "email?": "email",
+    "password?": "senha",
+    "isAdmin?": true/false se for adiministrador,
+    "score?": número de pontos
+  }
+  ```
+- **`DELETE /users`**: Deleta o usuário logado
 ### Cursos
 - **`GET /cursos`**: Lista os cursos cadastrados
 - **`GET /cursos/:id`**: Retorna o curso com a id especificada
