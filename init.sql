@@ -92,6 +92,16 @@ CREATE TABLE usuarios (
   UNIQUE KEY IDX_apelido (apelido)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- Tabela de log de pontuação
+CREATE TABLE IF NOT EXISTS log_pontuacao (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  idUsuario INT NOT NULL,
+  pontuacao_antiga INT NOT NULL,
+  pontuacao_nova INT NOT NULL,
+  data_acao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 -- DROP e criação da tabela resultado
 DROP TABLE IF EXISTS resultado;
 CREATE TABLE resultado (
@@ -177,6 +187,22 @@ BEGIN
     UPDATE usuarios
     SET pontuacao = pontuacao + p_pontuacaoObtida
     WHERE idUsuario = p_idUsuario;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP TRIGGER IF EXISTS log_after_update_pontuacao;
+
+CREATE TRIGGER log_after_update_pontuacao
+AFTER UPDATE ON usuarios
+FOR EACH ROW
+BEGIN
+  IF NEW.pontuacao <> OLD.pontuacao THEN
+    INSERT INTO log_pontuacao (idUsuario, pontuacao_antiga, pontuacao_nova)
+    VALUES (OLD.idUsuario, OLD.pontuacao, NEW.pontuacao);
+  END IF;
 END //
 
 DELIMITER ;
