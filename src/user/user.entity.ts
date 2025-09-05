@@ -1,3 +1,4 @@
+import { Resultado } from 'src/resultado/entities/resultado.entity';
 import {
   Column,
   Entity,
@@ -5,7 +6,6 @@ import {
   OneToMany,
   Unique,
 } from 'typeorm';
-import { Resultado } from '../resultado/resultado.entity';
 
 @Entity('usuarios')
 @Unique(['email', 'username'])

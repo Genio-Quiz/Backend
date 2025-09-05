@@ -82,7 +82,7 @@ export class UserService {
     return user;
   }
 
-  async save(user: CreateUserDTO): Promise<User> {
+  async save(user: CreateUserDTO): Promise<Partial<User>> {
     const userExists = await this.userRepository.findOne({
       where: [{ username: user.username }, { email: user.email.toLowerCase() }],
     });
@@ -96,10 +96,15 @@ export class UserService {
     };
 
     const newUser = this.userRepository.create(data);
-    return this.userRepository.save(newUser);
+    const savedUser = await this.userRepository.save(newUser);
+
+    return {
+      ...savedUser,
+      password: undefined,
+    };
   }
 
-  async update(id: number, user: UpdateUserDto): Promise<User> {
+  async update(id: number, user: UpdateUserDto): Promise<Partial<User>> {
     const userExistente = await this.userRepository.findOneBy({ id });
     if (!userExistente) {
       throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
@@ -114,7 +119,10 @@ export class UserService {
     }
 
     const result = await this.userRepository.save(updatedUser);
-    return result;
+    return {
+      ...result,
+      password: undefined,
+    };
   }
 
   async delete(id: number): Promise<boolean> {
