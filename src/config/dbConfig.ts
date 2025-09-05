@@ -3,12 +3,12 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { Curso } from 'src/curso/curso.entity';
 import { Disciplina } from 'src/disciplina/disciplina.entity';
-import { Questionario } from 'src/questionario/questionario.entity';
-import { Questao } from 'src/questao/questao.entity';
-import { Alternativa } from 'src/alternativa/alternativa.entity';
-import { Resultado } from 'src/resultado/resultado.entity';
 
 import dotenv from 'dotenv';
+import { Questionario } from 'src/questionario/entities/questionario.entity';
+import { Questao } from 'src/questao/entities/questao.entity';
+import { Alternativa } from 'src/alternativa/entities/alternativa.entity';
+import { Resultado } from 'src/resultado/entities/resultado.entity';
 
 dotenv.config();
 

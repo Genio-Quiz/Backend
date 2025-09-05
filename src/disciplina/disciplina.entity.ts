@@ -7,8 +7,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Curso } from '../curso/curso.entity';
-import { Questao } from '../questao/questao.entity';
-import { Questionario } from '../questionario/questionario.entity';
+import { Questao } from 'src/questao/entities/questao.entity';
+import { Questionario } from 'src/questionario/entities/questionario.entity';
 
 @Entity('disciplina')
 export class Disciplina {
@@ -16,7 +16,19 @@ export class Disciplina {
   id: number;
 
   @Column({ type: 'varchar', length: 20 })
+  icon: string;
+
+  @Column({ type: 'varchar', length: 20 })
   nome: string;
+
+  @Column({ type: 'varchar', length: 55 })
+  desc: string;
+
+  @Column({ type: 'varchar', length: 55 })
+  grad: string;
+
+  @Column({ type: 'varchar', length: 55 })
+  shadow: string;
 
   @ManyToOne(() => Curso, (curso) => curso.disciplinas, {
     nullable: false,

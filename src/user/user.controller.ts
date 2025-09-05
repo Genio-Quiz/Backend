@@ -49,7 +49,6 @@ export class UserController {
   ): Promise<User | null> {
     if (req.user) {
       if (updateUserDTO) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return this.userService.update(req.user.id, updateUserDTO);
       } else {
         throw new HttpException('Dados inválidos', HttpStatus.BAD_REQUEST);
@@ -64,7 +63,7 @@ export class UserController {
   async deleteUser(@Request() req) {
     if (!req.user.id)
       return new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
     return this.userService.delete(req.user.id);
   }
 }
