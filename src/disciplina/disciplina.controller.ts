@@ -8,10 +8,12 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { Disciplina } from 'src/disciplina/disciplina.entity';
 import { CreateDisciplinaDto } from './disciplina.dto';
 import { DisciplinaService } from './disciplina.service';
+import { AdminGuard } from 'src/guards/admin/admin.guard';
 
 @Controller('disciplinas')
 export class DisciplinaController {
@@ -36,6 +38,7 @@ export class DisciplinaController {
   }
 
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(AdminGuard)
   @Post()
   async create(@Body() disciplina: CreateDisciplinaDto): Promise<Disciplina> {
     return this.disciplinaService.save(disciplina);

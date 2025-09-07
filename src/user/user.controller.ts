@@ -49,7 +49,7 @@ export class UserController {
   ): Promise<User | null> {
     if (req.user) {
       if (updateUserDTO) {
-        return this.userService.update(req.user.id, updateUserDTO);
+        await this.userService.update(req.user.id, updateUserDTO);
       } else {
         throw new HttpException('Dados inválidos', HttpStatus.BAD_REQUEST);
       }
