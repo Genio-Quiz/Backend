@@ -76,7 +76,7 @@ Vá para a sua branch dev local e faça suas alterações:
 # ir para a sua branch dev local
 $ git checkout dev
 
-# faça seus commits
+# faça os seus commits
 $ git add .
 $ git commit -m "<sua mensagem descritiva>"
 ```
