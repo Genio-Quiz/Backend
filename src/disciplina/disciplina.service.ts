@@ -33,6 +33,7 @@ export class DisciplinaService {
       where: { id },
       relations: ['curso', 'questoes', 'questionarios'],
     });
+
     if (!disciplina) {
       throw new HttpException(
         'Disciplina não encontrado',
@@ -72,11 +73,8 @@ export class DisciplinaService {
       throw new HttpException('Curso não encontrado', HttpStatus.NOT_FOUND);
     }
 
-    const newDisciplina = this.disciplinaRepository.create({
-      nome: disciplinaDto.nome,
-      curso: curso,
-    });
-
+    const newDisciplina = this.disciplinaRepository.create(disciplinaDto);
+    console.log(newDisciplina);
     const savedDisciplina = await this.disciplinaRepository.save(newDisciplina);
 
     return savedDisciplina;

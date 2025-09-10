@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './signIn.dto';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
 import type { Response, Request } from 'express';
 
