@@ -5,12 +5,15 @@ import { User } from './user.entity';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { CreateUserDTO } from './dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { MailService } from 'src/mail/mail.service';
+import generateConfirmationCode from 'src/util/generateConfirmationCode';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private mailService: MailService,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -90,13 +93,29 @@ export class UserService {
       throw new HttpException('Usuário já existe', HttpStatus.CONFLICT);
     }
 
+    const token = generateConfirmationCode();
+
     const data = {
       ...user,
+      password: await bcrypt.hash(user.password, 10),
       email: user.email.toLowerCase(),
+      confirmationToken: token,
     };
 
     const newUser = this.userRepository.create(data);
     const savedUser = await this.userRepository.save(newUser);
+    if (!savedUser) {
+      throw new HttpException(
+        'Erro ao salvar o usuário',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    await this.mailService.sendUserConfirmation(
+      savedUser.email,
+      savedUser.username,
+      token,
+    );
 
     return {
       ...savedUser,
@@ -140,5 +159,59 @@ export class UserService {
     }
 
     return true;
+  }
+
+  async confirmEmail(token: string): Promise<string> {
+    const user = await this.userRepository.findOneBy({
+      confirmationToken: token,
+    });
+    if (!user) {
+      throw new HttpException('Token inválido', HttpStatus.BAD_REQUEST);
+    }
+
+    user.confirmationToken = null;
+
+    const userUpdated = await this.userRepository.save(user);
+    if (!userUpdated) {
+      throw new HttpException(
+        'Erro ao confirmar o email',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    return 'Email confirmado com sucesso!';
+  }
+
+  async recoveryPassword(
+    token: string,
+    newPassword: string,
+    confirmPassword: string,
+  ): Promise<string> {
+    const user = await this.userRepository.findOneBy({
+      recoveryToken: token,
+    });
+    if (!user) {
+      throw new HttpException('Token inválido', HttpStatus.BAD_REQUEST);
+    }
+
+    if (newPassword !== confirmPassword) {
+      throw new HttpException(
+        'As senhas não coincidem',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.recoveryToken = null;
+
+    const userUpdated = await this.userRepository.save(user);
+    if (!userUpdated) {
+      throw new HttpException(
+        'Erro ao recuperar a senha',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    return 'Senha alterada com sucesso!';
   }
 }

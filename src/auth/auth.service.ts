@@ -41,7 +41,7 @@ export class AuthService {
     const createUserDTO = new CreateUserDTO();
     createUserDTO.username = userDTO.username;
     createUserDTO.email = userDTO.email;
-    createUserDTO.password = await bcrypt.hash(userDTO.password, 10);
+    createUserDTO.password = userDTO.password;
     createUserDTO.score = userDTO.score;
     createUserDTO.isAdmin = userDTO.isAdmin;
 

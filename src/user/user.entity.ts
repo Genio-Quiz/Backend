@@ -22,6 +22,23 @@ export class User {
   @Column({ type: 'varchar', length: 255, name: 'senha' })
   password: string;
 
+  @Column({
+    type: 'varchar',
+    length: 255,
+    name: 'tokenConfirmacao',
+    nullable: true,
+  })
+  confirmationToken: string | null;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    name: 'tokenRecuperacao',
+    nullable: true,
+    default: null,
+  })
+  recoveryToken: string | null;
+
   @Column({ type: 'boolean', default: false, name: 'admin' })
   isAdmin: boolean;
 

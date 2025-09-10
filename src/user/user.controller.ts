@@ -10,6 +10,8 @@ import {
   Patch,
   Request,
   UseGuards,
+  Post,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
@@ -65,5 +67,25 @@ export class UserController {
       return new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     return this.userService.delete(req.user.id);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('confirm')
+  async confirmEmail(@Query('token') token: string): Promise<string> {
+    return this.userService.confirmEmail(token);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('recovery')
+  async recoveryPassword(
+    @Query('token') token: string,
+    @Body() newPassword: string,
+    confirmPassword: string,
+  ): Promise<string> {
+    return this.userService.recoveryPassword(
+      token,
+      newPassword,
+      confirmPassword,
+    );
   }
 }
