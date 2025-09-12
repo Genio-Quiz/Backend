@@ -13,7 +13,7 @@ import {
 import { CursoService } from './curso.service';
 import { Curso } from './curso.entity';
 import { CreateCursoDto } from './curso.dto';
-import { AdminGuard } from 'src/guards/admin/admin.guard';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('cursos')
 export class CursoController {
