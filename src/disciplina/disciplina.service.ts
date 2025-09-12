@@ -73,8 +73,11 @@ export class DisciplinaService {
       throw new HttpException('Curso não encontrado', HttpStatus.NOT_FOUND);
     }
 
-    const newDisciplina = this.disciplinaRepository.create(disciplinaDto);
-    console.log(newDisciplina);
+    const newDisciplina = this.disciplinaRepository.create({
+      nome: disciplinaDto.nome,
+      desc: disciplinaDto.desc,
+      curso: curso,
+    });
     const savedDisciplina = await this.disciplinaRepository.save(newDisciplina);
 
     return savedDisciplina;
