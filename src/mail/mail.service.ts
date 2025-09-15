@@ -1,22 +1,19 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { SendMailDto } from './mail.dto';
 
 @Injectable()
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  async sendUserConfirmation(
-    userEmail: string,
-    userName: string,
-    token: string,
-  ) {
+  async sendUserConfirmation(dto: SendMailDto) {
     await this.mailerService.sendMail({
-      to: userEmail,
+      to: dto.userEmail,
       subject: 'Confirme o seu email no Sabichão!!!',
       template: './templates/confirmacao.hbs',
       context: {
-        name: userName,
-        confirmationUrl: `http://localhost:3000/auth/confirm:token=${token}`,
+        name: dto.userName,
+        confirmationUrl: `http://localhost:3000/auth/confirm:token=${dto.token}`,
       },
     });
   }
