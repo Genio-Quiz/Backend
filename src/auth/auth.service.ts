@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { randomBytes } from 'crypto';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { SignInDto } from './signIn.dto';
@@ -47,5 +48,9 @@ export class AuthService {
 
     const saveUser = await this.usersService.save(createUserDTO);
     return saveUser;
+  }
+
+  generateRecoveryToken(length = 32): string {
+    return randomBytes(length).toString('hex'); 
   }
 }

@@ -13,23 +13,19 @@ export class MailService {
       template: './templates/confirmacao.hbs',
       context: {
         name: dto.userName,
-        confirmationUrl: `http://localhost:3000/auth/confirm:token=${dto.token}`,
+        confirmationUrl: `http://localhost:3000s/auth/confirm:token=${dto.token}`,
       },
     });
   }
 
-  async sendUserRecuperation(
-    userEmail: string,
-    userName: string,
-    token: string,
-  ) {
+  async sendUserRecuperation(dto: SendMailDto) {
     await this.mailerService.sendMail({
-      to: userEmail,
+      to: dto.userEmail,
       subject: 'Recupere a sua senha no Sabichão!!!',
       template: './templates/recuperacao.hbs',
       context: {
-        name: userName,
-        link: `http://localhost:3000/users/recovery?token=${token}`,
+        name: dto.userName,
+        link: `http://localhost:3000/users/recovery?token=${dto.token}`,
       },
     });
   }

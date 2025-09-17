@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { MailService } from 'src/mail/mail.service';
 import { SignInDto } from './signIn.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
@@ -17,7 +18,10 @@ import type { Response, Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private mailService: MailService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
@@ -44,5 +48,14 @@ export class AuthController {
       return { error: 'sem cookie, q fome' };
     }
     return req.cookies;
+  }
+
+  @Post('recovery')
+  async recovery( @Body('email') email:string) {
+
+    const recoveryToken = this.authService.generateRecoveryToken();
+
+    await this.mailService.sendUserRecuperation(email);
+    return { message: "Caso esse email esteja cadastrado, você receberá um email de recuperação"}
   }
 }
