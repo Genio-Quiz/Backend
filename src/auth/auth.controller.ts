@@ -12,7 +12,9 @@ import {
 import { AuthService } from './auth.service';
 import { MailService } from 'src/mail/mail.service';
 import { SignInDto } from './signIn.dto';
+import { SendMailDto } from 'src/mail/mail.dto';
 import { AuthGuard } from './guards/auth.guard';
+import { RecoveryDto } from 'src/mail/recovery.dto';
 import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
 import type { Response, Request } from 'express';
 
@@ -51,11 +53,23 @@ export class AuthController {
   }
 
   @Post('recovery')
-  async recovery( @Body('email') email:string) {
+  async recovery( @Body() recoveryDto: RecoveryDto) {
+    const { userEmail } = recoveryDto;
+    const user = await this.authService.findByEmail(userEmail);
 
-    const recoveryToken = this.authService.generateRecoveryToken();
+  if (!user) {
+    return { message: 'Caso o e-mail esteja cadastrado, você receberá instruções.' };
+  }
 
-    await this.mailService.sendUserRecuperation(email);
+    const recoveryToken = this.authService.generateRecoveryToken(user.id);
+
+    const sendMailDto: SendMailDto = {
+      userEmail: user.email,
+      userName: user.username,
+      token: recoveryToken,
+    };
+
+    await this.mailService.sendUserRecuperation(sendMailDto);
     return { message: "Caso esse email esteja cadastrado, você receberá um email de recuperação"}
   }
 }

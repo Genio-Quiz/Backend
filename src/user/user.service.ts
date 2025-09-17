@@ -85,6 +85,16 @@ export class UserService {
     return user;
   }
 
+async findByEmail(email: string): Promise<User | null> {
+  const user = await this.userRepository.findOne({
+    where: { email: email.toLowerCase() },
+  });
+  if (!user) {
+    return null; 
+  }
+  return user;
+}
+
   async save(user: CreateUserDTO): Promise<Partial<User>> {
     const userExists = await this.userRepository.findOne({
       where: [{ username: user.username }, { email: user.email.toLowerCase() }],
