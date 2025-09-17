@@ -59,4 +59,27 @@ export class AuthService {
     async findByEmail(email: string) {
     return this.usersService.findByEmail(email);
   }
+
+  async resetPassword(token: string, newPassword: string) {
+    try {
+      const payload: any = this.jwtService.verify(token, {
+      secret: process.env.SECRET,
+      });
+
+      if (payload.type !== 'recovery') {
+        throw new Error('Token inválido');
+      } 
+
+      const user = await this.usersService.findByOneId(payload.userId);
+      if (!user) throw new Error('Usuário não encontrado');
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      await this.usersService.update(user.id, { password: hashedPassword });
+
+      return {message:'Senha alterada com sucesso'}
+
+    } catch (error) { }
+      throw new Error ('Token inválido ou expirado');
+  }
 }

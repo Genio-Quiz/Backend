@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import { MailService } from 'src/mail/mail.service';
 import { SignInDto } from './signIn.dto';
 import { SendMailDto } from 'src/mail/mail.dto';
+import { ResetPasswordDto } from './reset-password.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { RecoveryDto } from 'src/mail/recovery.dto';
 import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
@@ -71,5 +72,13 @@ export class AuthController {
 
     await this.mailService.sendUserRecuperation(sendMailDto);
     return { message: "Caso esse email esteja cadastrado, você receberá um email de recuperação"}
+  }
+
+  @Post('reset-password')
+  async resetPassword( @Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(
+      resetPasswordDto.password,
+      resetPasswordDto.token,
+    )
   }
 }
