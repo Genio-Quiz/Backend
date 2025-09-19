@@ -7,6 +7,7 @@ import { CreateUserDTO } from './dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { MailService } from 'src/mail/mail.service';
 import generateConfirmationCode from 'src/util/generateConfirmationCode';
+import { SendMailDto } from 'src/mail/mail.dto';
 
 @Injectable()
 export class UserService {
@@ -85,15 +86,15 @@ export class UserService {
     return user;
   }
 
-async findByEmail(email: string): Promise<User | null> {
-  const user = await this.userRepository.findOne({
-    where: { email: email.toLowerCase() },
-  });
-  if (!user) {
-    return null; 
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: { email: email.toLowerCase() },
+    });
+    if (!user) {
+      return null;
+    }
+    return user;
   }
-  return user;
-}
 
   async save(user: CreateUserDTO): Promise<Partial<User>> {
     const userExists = await this.userRepository.findOne({
@@ -121,11 +122,13 @@ async findByEmail(email: string): Promise<User | null> {
       );
     }
 
-    await this.mailService.sendUserConfirmation(
-      savedUser.email,
-      savedUser.username,
-      token,
-    );
+    const userConfirmation: SendMailDto = {
+      userEmail: savedUser.email,
+      userName: savedUser.username,
+      token: token,
+    };
+
+    await this.mailService.sendUserConfirmation(userConfirmation);
 
     return {
       ...savedUser,
