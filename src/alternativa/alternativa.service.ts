@@ -1,11 +1,25 @@
+import { QuestaoService } from './../questao/questao.service';
 import { Injectable } from '@nestjs/common';
 import { CreateAlternativaDto } from './dto/create-alternativa.dto';
+import { Questao } from 'src/questao/entities/questao.entity';
 import { UpdateAlternativaDto } from './dto/update-alternativa.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QuestaoService } from 'src/questao/questao.service';
+import { Repository } from 'typeorm';
+import { retry } from 'rxjs';
 
 @Injectable()
 export class AlternativaService {
-  create(createAlternativaDto: CreateAlternativaDto) {
-    return 'This action adds a new alternativa';
+  constructor(
+    @InjectRepository(Questao) private questaoRepository: Repository<Questao>,
+    private questaoService: QuestaoService,
+  ) {}
+
+  async create(createAlternativaDto: CreateAlternativaDto) {
+    const questaoExiste = await this.questaoService.findOne(
+      createAlternativaDto.questaoId,
+    );
+    return;
   }
 
   findAll() {
