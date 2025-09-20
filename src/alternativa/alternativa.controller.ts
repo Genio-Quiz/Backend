@@ -23,11 +23,6 @@ export class AlternativaController {
     return this.alternativaService.create(createAlternativaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.alternativaService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.alternativaService.findOne(+id);

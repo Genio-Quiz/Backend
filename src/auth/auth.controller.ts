@@ -54,13 +54,15 @@ export class AuthController {
   }
 
   @Post('recovery')
-  async recovery( @Body() recoveryDto: RecoveryDto) {
+  async recovery(@Body() recoveryDto: RecoveryDto) {
     const { userEmail } = recoveryDto;
     const user = await this.authService.findByEmail(userEmail);
 
-  if (!user) {
-    return { message: 'Caso o e-mail esteja cadastrado, você receberá instruções.' };
-  }
+    if (!user) {
+      return {
+        message: 'Caso o e-mail esteja cadastrado, você receberá instruções.',
+      };
+    }
 
     const recoveryToken = this.authService.generateRecoveryToken(user.id);
 
@@ -71,14 +73,17 @@ export class AuthController {
     };
 
     await this.mailService.sendUserRecuperation(sendMailDto);
-    return { message: "Caso esse email esteja cadastrado, você receberá um email de recuperação"}
+    return {
+      message:
+        'Caso esse email esteja cadastrado, você receberá um email de recuperação',
+    };
   }
 
   @Post('reset-password')
-  async resetPassword( @Body() resetPasswordDto: ResetPasswordDto) {
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.authService.resetPassword(
       resetPasswordDto.password,
       resetPasswordDto.token,
-    )
+    );
   }
 }

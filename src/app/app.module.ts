@@ -15,6 +15,7 @@ import { UserController } from 'src/user/user.controller';
 import { DisciplinaController } from 'src/disciplina/disciplina.controller';
 import { CursoController } from 'src/curso/curso.controller';
 import { QuestaoController } from 'src/questao/questao.controller';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { QuestaoController } from 'src/questao/questao.controller';
     DisciplinaModule,
     CursoModule,
     QuestaoModule,
+    MailModule,
   ],
   controllers: [
     AppController,

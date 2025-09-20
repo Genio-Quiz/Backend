@@ -4,11 +4,12 @@ import { AuthService } from './auth.service';
 import { UserModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtextractorService } from './jwtextractor.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Global()
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, JwtextractorService],
+  providers: [AuthService, JwtextractorService, MailService],
   imports: [
     UserModule,
     JwtModule.register({
