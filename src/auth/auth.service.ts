@@ -21,7 +21,11 @@ export class AuthService {
       signInDto.username,
     );
     if (!user) throw new HttpException('Usuário inexistente', 404);
-    const match = await bcrypt.compare(signInDto.password, user?.password);
+    const password = bcrypt.hashSync(
+      signInDto.password,
+      Number(process.env.SALT_ROUNDS),
+    );
+    const match = await bcrypt.compare(signInDto.password, password);
     if (!match) throw new UnauthorizedException();
 
     const tokenItems = {

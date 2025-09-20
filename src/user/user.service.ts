@@ -108,7 +108,10 @@ export class UserService {
 
     const data = {
       ...user,
-      password: await bcrypt.hash(user.password, 10),
+      password: await bcrypt.hash(
+        user.password,
+        Number(process.env.SALT_ROUNDS),
+      ),
       email: user.email.toLowerCase(),
       confirmationToken: token,
     };
