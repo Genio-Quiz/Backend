@@ -8,11 +8,11 @@ export class MailService {
 
   async sendUserConfirmation(dto: SendMailDto) {
     await this.mailerService.sendMail({
-      to: dto.userEmail,
+      to: dto.email,
       subject: 'Confirme o seu email no Sabichão!!!',
       template: './templates/confirmacao.hbs',
       context: {
-        name: dto.userName,
+        name: dto.username,
         confirmationUrl: `http://localhost:3000s/auth/confirm:token=${dto.token}`,
       },
     });
@@ -20,11 +20,11 @@ export class MailService {
 
   async sendUserRecuperation(dto: SendMailDto) {
     await this.mailerService.sendMail({
-      to: dto.userEmail,
+      to: dto.email,
       subject: 'Recupere a sua senha no Sabichão!!!',
       template: './templates/recuperacao.hbs',
       context: {
-        name: dto.userName,
+        name: dto.username,
         link: `http://localhost:3000/users/recovery?token=${dto.token}`,
       },
     });

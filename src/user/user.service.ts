@@ -126,8 +126,7 @@ export class UserService {
     }
 
     const userConfirmation: SendMailDto = {
-      userEmail: savedUser.email,
-      userName: savedUser.username,
+      ...savedUser,
       token: token,
     };
 

@@ -67,8 +67,7 @@ export class AuthController {
     const recoveryToken = this.authService.generateRecoveryToken(user.id);
 
     const sendMailDto: SendMailDto = {
-      userEmail: user.email,
-      userName: user.username,
+      ...user,
       token: recoveryToken,
     };
 

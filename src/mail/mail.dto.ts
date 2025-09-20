@@ -2,10 +2,10 @@ import { IsEmail, IsString } from 'class-validator';
 
 export class SendMailDto {
   @IsEmail()
-  userEmail: string;
+  email: string;
 
   @IsString()
-  userName: string;
+  username: string;
 
   @IsString()
   token: string;

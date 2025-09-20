@@ -21,11 +21,18 @@ export class AuthService {
       signInDto.username,
     );
     if (!user) throw new HttpException('Usuário inexistente', 404);
-    const password = bcrypt.hashSync(
+
+    const match = await bcrypt.compare(signInDto.password, user.password);
+    const passwordHash = bcrypt.hashSync(
       signInDto.password,
       Number(process.env.SALT_ROUNDS),
     );
-    const match = await bcrypt.compare(signInDto.password, password);
+    console.log(
+      'Password Hash  : ',
+      passwordHash,
+      ' User Password : ',
+      user.password,
+    );
     if (!match) throw new UnauthorizedException();
 
     const tokenItems = {
@@ -42,14 +49,7 @@ export class AuthService {
   }
 
   async signUp(userDTO: CreateUserDTO) {
-    const createUserDTO = new CreateUserDTO();
-    createUserDTO.username = userDTO.username;
-    createUserDTO.email = userDTO.email;
-    createUserDTO.password = userDTO.password;
-    createUserDTO.score = userDTO.score;
-    createUserDTO.isAdmin = userDTO.isAdmin;
-
-    const saveUser = await this.usersService.save(createUserDTO);
+    const saveUser = await this.usersService.save(userDTO);
     return saveUser;
   }
 
