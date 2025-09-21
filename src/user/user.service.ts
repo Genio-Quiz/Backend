@@ -149,7 +149,10 @@ export class UserService {
       updatedUser.email = user.email.toLowerCase();
     }
     if (user.password) {
-      updatedUser.password = await bcrypt.hash(user.password, 10);
+      updatedUser.password = await bcrypt.hash(
+        user.password,
+        Number(process.env.SALT_ROUNDS),
+      );
     }
 
     const result = await this.userRepository.save(updatedUser);

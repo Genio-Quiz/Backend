@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateQuestionarioDto } from './dto/create-questionario.dto';
 import { UpdateQuestionarioDto } from './dto/update-questionario.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Questionario } from './entities/questionario.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class QuestionarioService {
+  constructor(
+    @InjectRepository(Questionario)
+    private questionarioRepository: Repository<Questionario>,
+  ) {}
+
   create(createQuestionarioDto: CreateQuestionarioDto) {
     return 'This action adds a new questionario';
   }

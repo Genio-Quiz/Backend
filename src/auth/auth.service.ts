@@ -23,16 +23,7 @@ export class AuthService {
     if (!user) throw new HttpException('Usuário inexistente', 404);
 
     const match = await bcrypt.compare(signInDto.password, user.password);
-    const passwordHash = bcrypt.hashSync(
-      signInDto.password,
-      Number(process.env.SALT_ROUNDS),
-    );
-    console.log(
-      'Password Hash  : ',
-      passwordHash,
-      ' User Password : ',
-      user.password,
-    );
+
     if (!match) throw new UnauthorizedException();
 
     const tokenItems = {
@@ -41,6 +32,7 @@ export class AuthService {
       username: user.username,
       isAdmin: user.isAdmin,
     };
+
     return {
       token: await this.jwtService.signAsync(tokenItems, {
         secret: process.env.SECRET,

@@ -57,6 +57,8 @@ export class AlternativaService {
         HttpStatus.NOT_FOUND,
       );
     }
+
+    return alternativa;
   }
 
   async update(id: number, updateAlternativaDto: UpdateAlternativaDto) {
