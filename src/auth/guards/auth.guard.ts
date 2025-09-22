@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import {
   CanActivate,
   ExecutionContext,
@@ -17,17 +15,20 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const token = await this.jwtextractorService.extractToken(request);
-
     try {
+      const request = context.switchToHttp().getRequest();
+      const token = await this.jwtextractorService.extractToken(request);
+
       const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.SECRET,
       });
       request['user'] = payload;
+      return true;
     } catch (error) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        'Invalid or missing token',
+        error.message,
+      );
     }
-    return true;
   }
 }
