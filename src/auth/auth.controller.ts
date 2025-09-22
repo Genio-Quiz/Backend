@@ -44,9 +44,10 @@ export class AuthController {
     return this.authService.signUp(createUserDto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('logout')
   async logOut(@Res() response: Response) {
-    response.clearCookie('token');
+    response.clearCookie('token').end();
   }
 
   @UseGuards(AuthGuard)
