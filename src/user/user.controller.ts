@@ -37,8 +37,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Get('/me')
   async me(@Request() req): Promise<User | null> {
-    const token = this.jwtService.decode(req.cookies['token']);
-    return this.userService.findByOneId(token['id']);
+    return req.user;
   }
 
   @HttpCode(HttpStatus.OK)
