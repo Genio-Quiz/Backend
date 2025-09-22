@@ -44,6 +44,11 @@ export class AuthController {
     return this.authService.signUp(createUserDto);
   }
 
+  @Post('logout')
+  async logOut(@Res() response: Response) {
+    response.clearCookie('token');
+  }
+
   @UseGuards(AuthGuard)
   @Get('protected')
   getProtected(@Req() req: Request) {
