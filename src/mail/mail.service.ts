@@ -13,7 +13,7 @@ export class MailService {
       template: './templates/confirmacao.hbs',
       context: {
         name: dto.username,
-        confirmationUrl: `http://localhost:3000s/auth/confirm:token=${dto.token}`,
+        confirmationUrl: `http://localhost:3000/auth/confirm:token=${dto.token}`,
       },
     });
   }

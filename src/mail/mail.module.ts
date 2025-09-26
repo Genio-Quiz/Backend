@@ -17,7 +17,7 @@ import { ConfigModule } from '@nestjs/config';
         },
       },
       defaults: {
-        from: `"Meu App" <${process.env.GMAIL_USER}>`,
+        from: `"Sabichão Quiz" <${process.env.GMAIL_USER}>`,
       },
     }),
   ],
