@@ -22,7 +22,7 @@ export class MailService {
     await this.mailerService.sendMail({
       to: dto.email,
       subject: 'Recupere a sua senha no Sabichão!!!',
-      template: './templates/recuperacao.hbs',
+      template: 'recuperacao',
       context: {
         name: dto.username,
         link: `http://localhost:3000/users/recovery?token=${dto.token}`,
