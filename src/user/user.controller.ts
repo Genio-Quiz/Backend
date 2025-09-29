@@ -25,7 +25,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   @HttpCode(HttpStatus.OK)
   @Get()
@@ -99,5 +99,7 @@ export class UserController {
       newPassword,
       confirmPassword,
     );
+
+    console.log(token);
   }
 }

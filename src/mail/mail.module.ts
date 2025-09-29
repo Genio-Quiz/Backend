@@ -22,7 +22,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         from: `"Sabichão Quiz" <${process.env.GMAIL_USER}>`,
       },
       template: {
-        dir: join(__dirname, 'templates'),
+        dir: join(__dirname, '..', '..', 'src', 'mail', 'templates'),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
@@ -33,4 +33,4 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
   providers: [MailService],
   exports: [MailService],
 })
-export class MailModule {}
+export class MailModule { }

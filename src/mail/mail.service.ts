@@ -4,13 +4,13 @@ import { SendMailDto } from './mail.dto';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(private readonly mailerService: MailerService) { }
 
   async sendUserConfirmation(dto: SendMailDto) {
     await this.mailerService.sendMail({
       to: dto.email,
       subject: 'Confirme o seu email no Sabichão!!!',
-      template: './templates/confirmacao.hbs',
+      template: 'confirmacao',
       context: {
         name: dto.username,
         confirmationUrl: `http://localhost:3000/auth/confirm:token=${dto.token}`,
