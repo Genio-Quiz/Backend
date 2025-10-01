@@ -94,12 +94,13 @@ export class UserController {
     @Body() newPassword: string,
     confirmPassword: string,
   ): Promise<string> {
+    console.log(token);
     return this.userService.recoveryPassword(
       token,
       newPassword,
       confirmPassword,
     );
 
-    console.log(token);
+
   }
 }
