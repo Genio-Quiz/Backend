@@ -11,7 +11,7 @@ import {
 @Entity('resultado')
 export class Resultado {
   @PrimaryGeneratedColumn({ name: 'idResultado' })
-  id: string;
+  id: number;
 
   @ManyToOne(() => User, (user) => user.resultados, {
     nullable: false,

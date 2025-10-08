@@ -27,7 +27,7 @@ export class QuestionarioController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.questionarioService.findOne(id);
+    return this.questionarioService.findOne(+id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class QuestionarioController {
     @Param('id') id: string,
     @Body() updateQuestionarioDto: UpdateQuestionarioDto,
   ) {
-    return this.questionarioService.update(id, updateQuestionarioDto);
+    return this.questionarioService.update(+id, updateQuestionarioDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.questionarioService.remove(id);
+    return this.questionarioService.remove(+id);
   }
 }

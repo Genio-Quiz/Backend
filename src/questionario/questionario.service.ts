@@ -24,12 +24,12 @@ export class QuestionarioService {
     return questionarios;
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     const questionario = this.questionarioRepository.findOne({ where: { id } });
     return questionario;
   }
 
-  async update(id: string, updateQuestionarioDto: UpdateQuestionarioDto) {
+  async update(id: number, updateQuestionarioDto: UpdateQuestionarioDto) {
     const questionario = await this.questionarioRepository.findOne({
       where: { id },
     });
@@ -47,7 +47,7 @@ export class QuestionarioService {
     return this.questionarioRepository.save(updatedQuestionario);
   }
 
-  remove(id: string) {
+  remove(id: number) {
     const questionario = this.questionarioRepository.delete({ id });
     return questionario;
   }

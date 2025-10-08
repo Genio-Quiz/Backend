@@ -12,7 +12,7 @@ import {
 @Entity('questionario')
 export class Questionario {
   @PrimaryGeneratedColumn({ name: 'idQuestionario' })
-  id: string;
+  id: number;
 
   @Column({ type: 'varchar', length: 100 })
   nome: string;

@@ -22,12 +22,12 @@ export class ResultadoService {
     return resultados;
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     const resultado = this.questionarioRepository.findOne({ where: { id } });
     return resultado;
   }
 
-  async update(id: string, updateResultadoDto: UpdateResultadoDto) {
+  async update(id: number, updateResultadoDto: UpdateResultadoDto) {
     const resultado = await this.questionarioRepository.findOne({
       where: { id },
     });
@@ -42,7 +42,7 @@ export class ResultadoService {
     return this.questionarioRepository.save(updatedResultado);
   }
 
-  remove(id: string) {
+  remove(id: number) {
     const resultado = this.questionarioRepository.delete({ id });
     return resultado;
   }

@@ -1,4 +1,4 @@
-import { IsDate, IsNumber } from 'class-validator';
+import { IsDate, IsNumber, IsString } from 'class-validator';
 
 export class CreateResultadoDto {
   @IsNumber()
@@ -7,9 +7,9 @@ export class CreateResultadoDto {
   @IsDate()
   dataExecucao: Date;
 
-  @IsNumber()
-  idUsuario: number;
+  @IsString()
+  idUsuario: string;
 
-  @IsNumber()
-  idQuestionario: number;
+  @IsString()
+  idQuestionario: string;
 }
