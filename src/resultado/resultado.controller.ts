@@ -27,7 +27,7 @@ export class ResultadoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.resultadoService.findOne(+id);
+    return this.resultadoService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class ResultadoController {
     @Param('id') id: string,
     @Body() updateResultadoDto: UpdateResultadoDto,
   ) {
-    return this.resultadoService.update(+id, updateResultadoDto);
+    return this.resultadoService.update(id, updateResultadoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.resultadoService.remove(+id);
+    return this.resultadoService.remove(id);
   }
 }
