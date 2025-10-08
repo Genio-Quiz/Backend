@@ -24,7 +24,6 @@ export class DisciplinaService {
       );
     }
 
-    console.log(disciplinas);
     return disciplinas;
   }
 
@@ -41,7 +40,6 @@ export class DisciplinaService {
       );
     }
 
-    console.log(disciplina);
     return disciplina;
   }
 

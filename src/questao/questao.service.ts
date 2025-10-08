@@ -18,10 +18,10 @@ export class QuestaoService {
     const disciplinaExiste = await this.disciplinaService.findByOneId(
       createQuestaoDto.disciplinaId,
     );
-    console.log(disciplinaExiste);
     if (!disciplinaExiste) {
       throw new HttpException('Disciplina não existe', HttpStatus.NOT_FOUND);
     }
+
     const questao = this.questaoRepository.create(createQuestaoDto);
     await this.questaoRepository.save(questao);
     return questao;
