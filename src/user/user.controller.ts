@@ -37,7 +37,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Get('/me')
   async me(@Request() req): Promise<User | null> {
-    return req.user;
+    return this.userService.findByOneId(req.user.id);
   }
 
   @HttpCode(HttpStatus.OK)
