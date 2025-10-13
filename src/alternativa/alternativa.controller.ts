@@ -23,6 +23,12 @@ export class AlternativaController {
     return this.alternativaService.create(createAlternativaDto);
   }
 
+  @Get(':correta')
+  findRight(@Param('id') id: string) {
+    const alternativa = this.alternativaService.findOne(+id) 
+    return this.alternativaService.findARightlternative(+alternativa)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.alternativaService.findOne(+id);

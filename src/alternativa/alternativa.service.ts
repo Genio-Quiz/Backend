@@ -45,6 +45,10 @@ export class AlternativaService {
     return alternativa;
   }
 
+  async findARightlternative(id: number) {
+    const es
+  }
+
   async findByQuestionId(questaoId: number) {
     const alternativa = await this.alternativaRepository.find({
       where: { questao: { id: questaoId } },
