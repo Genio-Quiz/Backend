@@ -13,7 +13,7 @@ import {
 import { Disciplina } from 'src/disciplina/disciplina.entity';
 import { CreateDisciplinaDto } from './disciplina.dto';
 import { DisciplinaService } from './disciplina.service';
-import { AdminGuard } from 'src/guards/admin/admin.guard';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('disciplinas')
 export class DisciplinaController {
@@ -45,6 +45,7 @@ export class DisciplinaController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AdminGuard)
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -54,6 +55,7 @@ export class DisciplinaController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AdminGuard)
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<{ mensagem: string }> {
     return this.disciplinaService.remove(id);

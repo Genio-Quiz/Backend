@@ -24,7 +24,6 @@ export class DisciplinaService {
       );
     }
 
-    console.log(disciplinas);
     return disciplinas;
   }
 
@@ -33,6 +32,7 @@ export class DisciplinaService {
       where: { id },
       relations: ['curso', 'questoes', 'questionarios'],
     });
+
     if (!disciplina) {
       throw new HttpException(
         'Disciplina não encontrado',
@@ -40,7 +40,6 @@ export class DisciplinaService {
       );
     }
 
-    console.log(disciplina);
     return disciplina;
   }
 
@@ -74,9 +73,9 @@ export class DisciplinaService {
 
     const newDisciplina = this.disciplinaRepository.create({
       nome: disciplinaDto.nome,
+      desc: disciplinaDto.desc,
       curso: curso,
     });
-
     const savedDisciplina = await this.disciplinaRepository.save(newDisciplina);
 
     return savedDisciplina;

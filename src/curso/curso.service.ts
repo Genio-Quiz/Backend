@@ -18,7 +18,6 @@ export class CursoService {
     if (!cursos || cursos.length === 0) {
       throw new HttpException('Nenhum curso encontrado', HttpStatus.NOT_FOUND);
     }
-    console.log(cursos);
 
     return cursos;
   }
@@ -31,8 +30,6 @@ export class CursoService {
     if (!curso) {
       throw new HttpException('Curso não encontrado', HttpStatus.NOT_FOUND);
     }
-
-    console.log(curso);
 
     return curso;
   }

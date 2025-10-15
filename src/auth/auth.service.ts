@@ -21,7 +21,9 @@ export class AuthService {
       signInDto.username,
     );
     if (!user) throw new HttpException('Usuário inexistente', 404);
-    const match = await bcrypt.compare(signInDto.password, user?.password);
+
+    const match = await bcrypt.compare(signInDto.password, user.password);
+
     if (!match) throw new UnauthorizedException();
 
     const tokenItems = {
@@ -30,6 +32,7 @@ export class AuthService {
       username: user.username,
       isAdmin: user.isAdmin,
     };
+
     return {
       token: await this.jwtService.signAsync(tokenItems, {
         secret: process.env.SECRET,
@@ -38,14 +41,37 @@ export class AuthService {
   }
 
   async signUp(userDTO: CreateUserDTO) {
-    const createUserDTO = new CreateUserDTO();
-    createUserDTO.username = userDTO.username;
-    createUserDTO.email = userDTO.email;
-    createUserDTO.password = await bcrypt.hash(userDTO.password, 10);
-    createUserDTO.score = userDTO.score;
-    createUserDTO.isAdmin = userDTO.isAdmin;
-
-    const saveUser = await this.usersService.save(createUserDTO);
+    const saveUser = await this.usersService.save(userDTO);
     return saveUser;
+  }
+
+  generateRecoveryToken(userId: number): string {
+    return this.jwtService.sign(
+      { userId, type: 'recovery' },
+      { secret: process.env.SECRET, expiresIn: '15m' },
+    );
+  }
+
+  async findByEmail(email: string) {
+    return this.usersService.findByEmail(email);
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    const payload: any = this.jwtService.verify(token, {
+      secret: process.env.SECRET,
+    });
+
+    if (payload.type !== 'recovery') {
+      throw new Error('Token inválido');
+    }
+
+    const user = await this.usersService.findByOneId(payload.userId);
+    if (!user) throw new Error('Usuário não encontrado');
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await this.usersService.update(user.id, { password: hashedPassword });
+
+    return { message: 'Senha alterada com sucesso' };
   }
 }

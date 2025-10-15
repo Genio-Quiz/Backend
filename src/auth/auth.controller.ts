@@ -10,14 +10,21 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { MailService } from 'src/mail/mail.service';
 import { SignInDto } from './signIn.dto';
-import { AuthGuard } from './auth.guard';
+import { SendMailDto } from 'src/mail/mail.dto';
+import { ResetPasswordDto } from './reset-password.dto';
+import { AuthGuard } from './guards/auth.guard';
+import { RecoveryDto } from 'src/mail/recovery.dto';
 import { CreateUserDTO } from 'src/user/dtos/create-user.dto';
 import type { Response, Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private mailService: MailService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
@@ -37,6 +44,12 @@ export class AuthController {
     return this.authService.signUp(createUserDto);
   }
 
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  async logOut(@Res() response: Response) {
+    response.clearCookie('token').end();
+  }
+
   @UseGuards(AuthGuard)
   @Get('protected')
   getProtected(@Req() req: Request) {
@@ -44,5 +57,38 @@ export class AuthController {
       return { error: 'sem cookie, q fome' };
     }
     return req.cookies;
+  }
+
+  @Post('recovery')
+  async recovery(@Body() recoveryDto: RecoveryDto) {
+    const { userEmail } = recoveryDto;
+    const user = await this.authService.findByEmail(userEmail);
+
+    if (!user) {
+      return {
+        message: 'Caso o e-mail esteja cadastrado, você receberá instruções.',
+      };
+    }
+
+    const recoveryToken = this.authService.generateRecoveryToken(user.id);
+
+    const sendMailDto: SendMailDto = {
+      ...user,
+      token: recoveryToken,
+    };
+
+    await this.mailService.sendUserRecuperation(sendMailDto);
+    return {
+      message:
+        'Caso esse email esteja cadastrado, você receberá um email de recuperação',
+    };
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(
+      resetPasswordDto.password,
+      resetPasswordDto.token,
+    );
   }
 }

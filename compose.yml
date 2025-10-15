@@ -35,10 +35,12 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
       - NODE_ENV=development
+      - GMAIL_PASS=${GMAIL_PASS}
+      - GMAIL_USER=${GMAIL_USER}
     volumes:
-      - ./src:/usr/src/app/src
-      - ./tsconfig.json:/usr/src/app/tsconfig.json
-      - ./nest-cli.json:/usr/src/app/nest-cli.json
+      - ./src:/usr/src/app/src:Z
+      - ./tsconfig.json:/usr/src/app/tsconfig.json:Z
+      - ./nest-cli.json:/usr/src/app/nest-cli.json:Z
     command: npm run start:dev
     depends_on:
       mysql:

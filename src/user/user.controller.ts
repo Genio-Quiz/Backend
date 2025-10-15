@@ -10,15 +10,22 @@ import {
   Patch,
   Request,
   UseGuards,
+  Post,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Get()
@@ -27,9 +34,16 @@ export class UserController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @Get('/me')
+  async me(@Request() req): Promise<User | null> {
+    return this.userService.findByOneId(req.user.id);
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get(':id')
-  async findById(@Param('id') id: number): Promise<User | null> {
-    return this.userService.findByOneId(Number(id));
+  async findById(@Param('id', ParseIntPipe) id: number): Promise<User | null> {
+    return this.userService.findByOneId(id);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -65,5 +79,26 @@ export class UserController {
       return new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     return this.userService.delete(req.user.id);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('confirm')
+  async confirmEmail(@Query('token') token: string): Promise<string> {
+    return this.userService.confirmEmail(token);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('recovery')
+  async recoveryPassword(
+    @Query('token') token: string,
+    @Body() newPassword: string,
+    confirmPassword: string,
+  ): Promise<string> {
+    console.log(token);
+    return this.userService.recoveryPassword(
+      token,
+      newPassword,
+      confirmPassword,
+    );
   }
 }

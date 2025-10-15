@@ -9,10 +9,13 @@ import { AuthModule } from 'src/auth/auth.module';
 import { UserModule } from 'src/user/user.module';
 import { DisciplinaModule } from 'src/disciplina/disciplina.module';
 import { CursoModule } from 'src/curso/curso.module';
+import { QuestaoModule } from 'src/questao/questao.module';
 import { AuthController } from 'src/auth/auth.controller';
 import { UserController } from 'src/user/user.controller';
 import { DisciplinaController } from 'src/disciplina/disciplina.controller';
 import { CursoController } from 'src/curso/curso.controller';
+import { QuestaoController } from 'src/questao/questao.controller';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
@@ -23,6 +26,8 @@ import { CursoController } from 'src/curso/curso.controller';
     UserModule,
     DisciplinaModule,
     CursoModule,
+    QuestaoModule,
+    MailModule,
   ],
   controllers: [
     AppController,
@@ -30,6 +35,7 @@ import { CursoController } from 'src/curso/curso.controller';
     UserController,
     DisciplinaController,
     CursoController,
+    QuestaoController,
   ],
   providers: [JwtService],
 })
